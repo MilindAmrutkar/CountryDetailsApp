@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CountryDetailsViewModel @Inject constructor(private val getCountryDetailsUseCase: GetCountryDetailsUseCase) :
     ViewModel() {
     private val _countryDetails = mutableStateOf(CountryDetailsState())
-    val countryDetailsState: State<CountryDetailsState> = _countryDetails
+    val countryDetails: State<CountryDetailsState> = _countryDetails
 
     fun getCountryDetails(countryName: String) {
         getCountryDetailsUseCase(countryName = countryName).onEach {
