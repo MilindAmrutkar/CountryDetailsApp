@@ -2,6 +2,7 @@ package com.backtocoding.countrydetailsapp.presentation.country_details
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.backtocoding.countrydetailsapp.common.Resource
@@ -12,10 +13,20 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class CountryDetailsViewModel @Inject constructor(private val getCountryDetailsUseCase: GetCountryDetailsUseCase) :
+class CountryDetailsViewModel @Inject constructor(
+    private val getCountryDetailsUseCase: GetCountryDetailsUseCase,
+    savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
     private val _countryDetails = mutableStateOf(CountryDetailsState())
     val countryDetails: State<CountryDetailsState> = _countryDetails
+
+
+    init {
+        savedStateHandle.getLiveData<String>("country_name").value?.let {
+            getCountryDetails(it)
+        }
+    }
 
     fun getCountryDetails(countryName: String) {
         getCountryDetailsUseCase(countryName = countryName).onEach {

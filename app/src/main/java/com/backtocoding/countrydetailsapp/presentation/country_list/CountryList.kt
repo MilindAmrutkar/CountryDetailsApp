@@ -22,12 +22,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.backtocoding.countrydetailsapp.domain.model.Country
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CountryListScreen(viewModel: CountryListViewModel = hiltViewModel()) {
+fun CountryListScreen(
+    navController: NavController,
+    viewModel: CountryListViewModel = hiltViewModel()
+) {
 
     val res = viewModel.list.value
 
@@ -52,7 +56,7 @@ fun CountryListScreen(viewModel: CountryListViewModel = hiltViewModel()) {
             LazyColumn {
                 items(it) {
                     CountryListItem(country = it) {
-
+                        navController.navigate("country_details/${it}")
                     }
                 }
             }
